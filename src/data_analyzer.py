@@ -1,8 +1,9 @@
 import pandas as pd
 import numpy as np
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 import logging
+from datetime import datetime
 
 # Logging konfigurieren
 logging.basicConfig(
@@ -11,11 +12,11 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-class DataAnalyzer:
+class ECommerceAnalyzer:
     def __init__(self, data_path: Optional[str] = None):
         self.data_path = Path(data_path) if data_path else None
         self.data = None
-        logger.info(f"DataAnalyzer initialisiert mit Pfad: {data_path}")
+        logger.info(f"ECommerceAnalyzer initialisiert mit Pfad: {data_path}")
     
     def load_data(self, file_path: Optional[str] = None) -> pd.DataFrame:
         path = Path(file_path) if file_path else self.data_path
@@ -25,95 +26,128 @@ class DataAnalyzer:
         logger.info(f"Lade Daten von: {path}")
         try:
             self.data = pd.read_csv(path)
+            # Konvertiere date zu datetime
+            self.data['date'] = pd.to_datetime(self.data['date'])
             return self.data
         except Exception as e:
             logger.error(f"Fehler beim Laden der Daten: {e}")
             raise
-    
-    def get_basic_stats(self, columns: Optional[List[str]] = None) -> Dict:
+            
+    def get_sales_summary(self, group_by: str = 'product_category') -> pd.DataFrame:
         if self.data is None:
             raise ValueError("Keine Daten geladen!")
             
-        if columns:
-            numeric_data = self.data[columns].select_dtypes(include=[np.number])
-        else:
-            numeric_data = self.data.select_dtypes(include=[np.number])
+        summary = self.data.groupby(group_by).agg({
+            'quantity': 'sum',
+            'total_amount': 'sum',
+            'rating': 'mean',
+            'return_status': lambda x: (x == 'Yes').mean()
+        }).round(2)
+        
+        summary.columns = ['Verkaufte Einheiten', 'Gesamtumsatz', 
+                         'Durchschnittliche Bewertung', 'Rückgabequote']
+        return summary
+        
+    def analyze_daily_sales(self) -> pd.DataFrame:
+        if self.data is None:
+            raise ValueError("Keine Daten geladen!")
             
-        stats = {
-            col: {
-                'mean': numeric_data[col].mean(),
-                'median': numeric_data[col].median(),
-                'std': numeric_data[col].std(),
-                'min': numeric_data[col].min(),
-                'max': numeric_data[col].max()
-            }
-            for col in numeric_data.columns
+        daily_stats = self.data.groupby('date').agg({
+            'total_amount': 'sum',
+            'quantity': 'sum',
+            'rating': 'mean'
+        }).round(2)
+        
+        daily_stats.columns = ['Tagesumsatz', 'Verkaufte Einheiten', 
+                             'Durchschnittliche Bewertung']
+        return daily_stats
+        
+    def analyze_customer_countries(self) -> pd.DataFrame:
+        if self.data is None:
+            raise ValueError("Keine Daten geladen!")
+            
+        country_stats = self.data.groupby('customer_country').agg({
+            'customer_id': 'count',
+            'total_amount': 'sum',
+            'rating': 'mean'
+        }).round(2)
+        
+        country_stats.columns = ['Anzahl Kunden', 'Gesamtumsatz', 
+                               'Durchschnittliche Bewertung']
+        return country_stats
+        
+    def analyze_payment_methods(self) -> pd.DataFrame:
+        if self.data is None:
+            raise ValueError("Keine Daten geladen!")
+            
+        payment_stats = self.data.groupby('payment_method').agg({
+            'total_amount': ['sum', 'mean', 'count']
+        }).round(2)
+        
+        payment_stats.columns = ['Gesamtumsatz', 'Durchschnittlicher Betrag', 
+                               'Anzahl Transaktionen']
+        return payment_stats
+        
+    def analyze_delivery_impact(self) -> Dict:
+        if self.data is None:
+            raise ValueError("Keine Daten geladen!")
+            
+        correlation = self.data['delivery_time_days'].corr(self.data['rating'])
+        
+        delivery_impact = {
+            'korrelation_lieferzeit_bewertung': round(correlation, 3),
+            'durchschnittliche_bewertung_pro_lieferzeit': 
+                self.data.groupby('delivery_time_days')['rating'].mean().to_dict()
         }
         
-        return stats
-    
-    def find_outliers(self, column: str, threshold: float = 2.0) -> Dict:
+        return delivery_impact
+
+    def get_top_products(self, metric: str = 'quantity', top_n: int = 5) -> pd.DataFrame:
         if self.data is None:
             raise ValueError("Keine Daten geladen!")
             
-        data = self.data[column]
-        z_scores = np.abs((data - data.mean()) / data.std())
-        outliers = data[z_scores > threshold]
+        if metric not in ['quantity', 'total_amount']:
+            raise ValueError("Metrik muss 'quantity' oder 'total_amount' sein!")
+            
+        top_products = self.data.groupby(['product_id', 'product_category']).agg({
+            metric: 'sum',
+            'rating': 'mean'
+        }).round(2)
         
-        return {
-            'outliers': outliers.tolist(),
-            'indices': outliers.index.tolist(),
-            'count': len(outliers)
-        }
-    
-    def generate_summary(self) -> Dict:
-        if self.data is None:
-            raise ValueError("Keine Daten geladen!")
-            
-        return {
-            'shape': self.data.shape,
-            'columns': self.data.columns.tolist(),
-            'dtypes': self.data.dtypes.to_dict(),
-            'missing_values': self.data.isnull().sum().to_dict(),
-            'numeric_columns': self.data.select_dtypes(include=[np.number]).columns.tolist(),
-            'categorical_columns': self.data.select_dtypes(include=['object']).columns.tolist()
-        }
+        top_products = top_products.sort_values(metric, ascending=False).head(top_n)
+        return top_products
 
 # Beispielverwendung
 if __name__ == "__main__":
-    # Beispieldaten erstellen
-    example_data = pd.DataFrame({
-        'A': np.random.normal(0, 1, 100),
-        'B': np.random.normal(5, 2, 100),
-        'C': ['cat', 'dog'] * 50
-    })
+    # Korrekten Pfad zur Datei erstellen
+    import os
     
-    # Beispieldaten speichern
-    data_path = Path('../data/example_data.csv')
-    data_path.parent.mkdir(parents=True, exist_ok=True)
-    example_data.to_csv(data_path, index=False)
+    # Pfad relativ zum Skript-Verzeichnis erstellen
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(os.path.dirname(current_dir), 'data', 'ecommerce_sales.csv')
     
-    # Analyzer testen
-    analyzer = DataAnalyzer(str(data_path))
+    # Analyzer initialisieren
+    analyzer = ECommerceAnalyzer(data_path)
     
     try:
         # Daten laden
         analyzer.load_data()
         
-        # Statistiken berechnen
-        stats = analyzer.get_basic_stats()
-        print("\nGrundlegende Statistiken:")
-        print(stats)
+        # Verschiedene Analysen durchführen
+        print("\nVerkaufszusammenfassung nach Kategorien:")
+        print(analyzer.get_sales_summary())
         
-        # Ausreißer finden
-        outliers = analyzer.find_outliers('A')
-        print("\nGefundene Ausreißer in Spalte A:")
-        print(outliers)
+        print("\nTop 5 Produkte nach Verkaufsmenge:")
+        print(analyzer.get_top_products())
         
-        # Zusammenfassung generieren
-        summary = analyzer.generate_summary()
-        print("\nDatensatz-Zusammenfassung:")
-        print(summary)
+        print("\nAnalyse der Zahlungsmethoden:")
+        print(analyzer.analyze_payment_methods())
+        
+        print("\nLänderbasierte Statistiken:")
+        print(analyzer.analyze_customer_countries())
+        
+        print("\nEinfluss der Lieferzeit:")
+        print(analyzer.analyze_delivery_impact())
         
     except Exception as e:
         logger.error(f"Fehler bei der Analyse: {e}")

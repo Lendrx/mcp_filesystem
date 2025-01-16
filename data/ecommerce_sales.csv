@@ -1,0 +1,46 @@
+date,product_id,product_category,unit_price,quantity,customer_id,customer_country,total_amount,payment_method,delivery_time_days,rating,return_status
+2024-01-01,P001,Electronics,599.99,1,C101,Germany,599.99,Credit Card,3,4.5,No
+2024-01-01,P015,Books,24.99,2,C102,France,49.98,PayPal,5,5.0,No
+2024-01-01,P008,Clothing,49.99,3,C103,Spain,149.97,Credit Card,4,3.5,Yes
+2024-01-02,P002,Electronics,899.99,1,C104,Italy,899.99,Credit Card,3,4.0,No
+2024-01-02,P011,Home & Garden,79.99,2,C105,Germany,159.98,PayPal,6,4.5,No
+2024-01-02,P007,Sports,129.99,1,C106,France,129.99,Debit Card,4,5.0,No
+2024-01-03,P003,Electronics,299.99,2,C107,Spain,599.98,Credit Card,3,3.0,Yes
+2024-01-03,P012,Books,19.99,4,C108,Germany,79.96,PayPal,5,4.5,No
+2024-01-03,P009,Clothing,39.99,2,C109,France,79.98,Credit Card,4,4.0,No
+2024-01-04,P004,Home & Garden,149.99,1,C110,Italy,149.99,Debit Card,6,5.0,No
+2024-01-04,P013,Sports,89.99,2,C111,Germany,179.98,Credit Card,4,4.5,No
+2024-01-04,P006,Electronics,799.99,1,C112,Spain,799.99,PayPal,3,4.0,No
+2024-01-05,P005,Books,29.99,3,C113,France,89.97,Credit Card,5,3.5,No
+2024-01-05,P014,Clothing,59.99,2,C114,Germany,119.98,Debit Card,4,4.0,No
+2024-01-05,P010,Home & Garden,199.99,1,C115,Italy,199.99,PayPal,6,4.5,No
+2024-01-06,P001,Electronics,599.99,2,C116,Spain,1199.98,Credit Card,3,5.0,No
+2024-01-06,P015,Books,24.99,5,C117,Germany,124.95,PayPal,5,4.5,No
+2024-01-06,P008,Sports,129.99,1,C118,France,129.99,Credit Card,4,4.0,No
+2024-01-07,P002,Electronics,899.99,1,C119,Italy,899.99,Debit Card,3,3.5,Yes
+2024-01-07,P011,Home & Garden,79.99,3,C120,Germany,239.97,PayPal,6,4.0,No
+2024-01-07,P007,Clothing,49.99,2,C121,Spain,99.98,Credit Card,4,4.5,No
+2024-01-08,P003,Electronics,299.99,3,C122,France,899.97,PayPal,3,5.0,No
+2024-01-08,P012,Books,19.99,6,C123,Germany,119.94,Credit Card,5,4.5,No
+2024-01-08,P009,Sports,89.99,2,C124,Italy,179.98,Debit Card,4,4.0,No
+2024-01-09,P004,Home & Garden,149.99,2,C125,Spain,299.98,PayPal,6,3.5,No
+2024-01-09,P013,Clothing,59.99,3,C126,Germany,179.97,Credit Card,4,4.0,No
+2024-01-09,P006,Electronics,799.99,1,C127,France,799.99,PayPal,3,4.5,No
+2024-01-10,P005,Books,29.99,4,C128,Italy,119.96,Debit Card,5,5.0,No
+2024-01-10,P014,Sports,129.99,1,C129,Germany,129.99,Credit Card,4,4.5,No
+2024-01-10,P010,Home & Garden,199.99,2,C130,Spain,399.98,PayPal,6,4.0,Yes
+2024-01-11,P001,Electronics,599.99,1,C131,France,599.99,Credit Card,3,3.5,No
+2024-01-11,P015,Clothing,49.99,3,C132,Germany,149.97,PayPal,4,4.0,No
+2024-01-11,P008,Books,24.99,4,C133,Italy,99.96,Debit Card,5,4.5,No
+2024-01-12,P002,Home & Garden,79.99,2,C134,Spain,159.98,PayPal,6,5.0,No
+2024-01-12,P011,Sports,89.99,2,C135,Germany,179.98,Credit Card,4,4.5,No
+2024-01-12,P007,Electronics,899.99,1,C136,France,899.99,PayPal,3,4.0,No
+2024-01-13,P003,Clothing,59.99,3,C137,Italy,179.97,Credit Card,4,3.5,Yes
+2024-01-13,P012,Home & Garden,199.99,1,C138,Germany,199.99,Debit Card,6,4.0,No
+2024-01-13,P009,Books,29.99,5,C139,Spain,149.95,PayPal,5,4.5,No
+2024-01-14,P004,Sports,129.99,2,C140,France,259.98,Credit Card,4,5.0,No
+2024-01-14,P013,Electronics,799.99,1,C141,Germany,799.99,PayPal,3,4.5,No
+2024-01-14,P006,Clothing,49.99,4,C142,Italy,199.96,Debit Card,4,4.0,No
+2024-01-15,P005,Home & Garden,149.99,2,C143,Spain,299.98,PayPal,6,3.5,No
+2024-01-15,P014,Books,19.99,7,C144,Germany,139.93,Credit Card,5,4.0,No
+2024-01-15,P010,Sports,89.99,2,C145,France,179.98,PayPal,4,4.5,Yes
