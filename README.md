@@ -24,7 +24,7 @@ Wenn du tiefer einsteigen willst:
 
 ## Projekt Setup
 
-### Claude Desktop App Konfiguration
+### Claude Desktop App Konfiguration - auf dem Mac:
 
 1. Öffne folgende Datei auf deinem Mac:
 ```bash
