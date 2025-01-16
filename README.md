@@ -1,17 +1,26 @@
-# Claude MCP Data Analysis Example
+# Claude MCP Projekt 🚀
 
-Dieses Repository demonstriert die Verwendung von Claude MCP für Data Analysis Projekte.
+Dieses Repo zeigt, wie man Claude's Model Context Protocol (MCP) mit dem lokalen Filesystem nutzt, um Dateien zu bearbeiten und Projekte zu verwalten.
 
-## Weitere MCP Ressourcen
+## Was kann ich damit machen?
 
-- [MCP Servers Repository](https://github.com/modelcontextprotocol/servers/tree/main) - Hier findest du alle verfügbaren MCP Server und ihre Implementierungen
-- [MCP Filesystem Dokumentation](https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem) - Detaillierte Dokumentation zur Verwendung des MCP Filesystem Servers
+- Code von Claude überprüfen und verbessern lassen
+- Hilfe bei der Datenanalyse bekommen
+- Fragen zu deinem Code stellen
+- Fehler finden und beheben
 
-Diese Ressourcen sind besonders hilfreich, wenn du:
-- Mehr über die verschiedenen MCP Server-Typen lernen möchtest
-- Die technischen Details des Filesystem-Servers verstehen willst
-- Eigene MCP Server implementieren möchtest
-- Nach fortgeschrittenen Konfigurationsoptionen suchst
+## Was ist eigentlich MCP?
+
+MCP (Model Context Protocol) ist sozusagen die "Brücke" zwischen Claude und deinem Computer. Damit kann Claude:
+- Deine Projekt-Dateien lesen
+- Verbesserungsvorschläge machen
+- Dir bei der Analyse helfen
+
+## Nützliche Links für später
+
+Wenn du tiefer einsteigen willst:
+- [MCP Servers auf GitHub](https://github.com/modelcontextprotocol/servers/tree/main)
+- [Wie MCP mit Dateien arbeitet](https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem)
 
 ## Projekt Setup
 
